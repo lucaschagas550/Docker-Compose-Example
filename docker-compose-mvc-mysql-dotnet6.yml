@@ -1,0 +1,37 @@
+version: "3"
+
+volumes:
+  produtosdata:
+
+networks:
+  frontend:
+  backend:
+
+services:
+  mysql:
+    image: "mysql:latest" # Diz ao docker a imagem a ser utilizado para a criacao do container
+    volumes:
+      - produtosdata:/var/lib/mysql
+      - ./_MySQL_Init_Script:/docker-entrypoint-initdb.d
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=dragao123
+      - bind-address=0.0.0.0
+    ports:
+      - 3306:3306
+
+  mvc:
+    container_name: "mvc_produtos"
+    build: # Indica o inicio da secao build que diz ao docker como criar a imaegm para container deste servico
+      context: . # Define o diretorio do contexto que sera usado para criar a imagem. Usa o diretorio atual do projeto mvc
+      dockerfile: Dockerfile # Especifica o arquivo dockerfile usado para criar a imgem
+    networks:
+      - backend
+      - frontend
+    ports:
+      - 5000:80 # Expoe a porta 5000 para acesso exterior e 80 para outros container
+    environment:
+      - DBHOST=mysql # Cria a variavel de ambiente DBHOST setando o nome do mysql para utilizando na connection string, ao realizar conexao com banco de dados
+    depends_on: # Diz ao docker a ordem que os containers devem ser executados
+      - mysql
