@@ -1,0 +1,19 @@
+#Indica a versao da API Kubernetes usada para criar o objeto
+apiVersion: v1
+
+#Define o tipo de objeto a ser criado: Pod, Deployment, ReplicaSet, Service, NameSpace
+kind: Pod
+
+#Define os dados do objeto como: name, labels (eh um dicionario)
+metadata:
+  name: pod-nginx
+
+#Define as especificacoes do objeto que desejamos criar. Varia conforme o objeto que vamos criar.
+#Aqui estamos criando um Pod com um container usando a imagem do nginx na porta 80.
+#Containers eh uma lista ou um array pois um pod pode conter multiplos containers (indicamos uma lista com "-")
+spec:
+  containers:
+    - image: nginx
+      name: cont-nginx
+      ports:
+        - containerPort: 80
