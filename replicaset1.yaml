@@ -1,0 +1,22 @@
+#Com esta abordagem nossa aplicao tem mais resiliencia, pq se um pod cair outro sera iniciado no seu lugar por causa do replicaset
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: redis-replicaset
+spec:
+  template:
+    metadata:
+      name: mypod
+      labels: #Label para indentificacao do pod
+        app: myApp
+        type: database
+    spec:
+      containers:
+        - name: cont-redis
+          image: redis
+          ports:
+            - containerPort: 80
+  replicas: 3 #Definicao para criar 3 replicas do pod
+  selector:
+    matchLabels:
+      type: database
