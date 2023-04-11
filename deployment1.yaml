@@ -1,0 +1,24 @@
+#Um deployment eh um conceito de nivel superior que gerencia os ReplicaSets e fornece atualiazcao declarativas para Pods, juntamente com muitos outros recursos
+#Podemos usar Deployment para aplicar atualizacao continua de aplicativos em Pods e da mesma forma reverter uma atualizacao que falhou
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    app: nginx-deploy
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: nginx1
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:1.14.2
+          ports:
+            - containerPort: 80
+  selector:
+    matchLabels:
+      app: nginx1
