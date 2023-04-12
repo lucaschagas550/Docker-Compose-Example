@@ -3,10 +3,12 @@ kind: Service
 metadata:
   name: apache-service
 spec:
-  type: ClusterIP
+  type: ClusterIP #Define o tipo do servico que sao: ClusterIP, NodePort, LoadBalancer, ExternalName
   selector:
     app: apache-deploy
   ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: 8080
+    - port: 8080 #Numero da porta exposto internamente no Cluster
+      protocol: TCP #Quando nao informado o padrao eh TCP
+      targetPort: 8080 #Define a porta que os containers estao escutando
+#Criar este mesmo arquivo .yaml por linha de comando
+#kubectl expose deployment apache-deploy --name=apache-service --type=ClusterIp --port=8080 --target-port=8080
